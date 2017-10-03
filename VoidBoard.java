@@ -1,39 +1,10 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 public class VoidBoard{
 
 	private VoidShip[][] board;
-	private FileWriter logWriter;
 
-	public VoidBoard(String logFileName){
-		
-		
-		try{	
-			
-			File logFile = new File(logFileName);
-			logFile.createNewFile();
-		
-		}catch (IOException e){
-		
-			System.out.println("Error: Something went wrong while attempting to create a logfile.");
-		
-		}
-		
-		try{
-		
-			logWriter = new FileWriter(logFileName);
-		
-		}catch (IOException e){
-		
-			System.out.println("Error: Something went wrong while attempting to create a writer for the logfile.");
-		
-		}
+	public VoidBoard(){
 		
 		board = new VoidShip[5][18];
-		
-		log("new board");
 		
 		reset();
 		
@@ -41,7 +12,7 @@ public class VoidBoard{
 	
 	public void print(){
 	
-		System.out.println("    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17\n");
+		System.out.println("\n    0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17\n");
 	
 		for(int o = 4; o >= 0; o--){
 		
@@ -67,30 +38,18 @@ public class VoidBoard{
 		
 		System.out.print("\n");
 		
-		log("print");
+	}
+	
+	public void clear(int o, int s){
+		
+		board[o][s] = null;
 		
 	}
 	
-	public boolean move(int oi, int si, int of, int sf, int oa, int sa){
-
-		if(true){ //TODO: check move legality		
+	public void move(int oi, int si, int of, int sf){		
 			
 			board[of][sf] = board[oi][si];
 			board[oi][si] = null;
-			
-			logMove(oi, si, of, sf, oa, sa);
-			
-			return true;
-		
-		}else{
-		
-			log("REJECTED: " + oi + "," + si + " to " + of + "," + sf + " hit " + oa + "," + sa);
-			
-			return false;
-		
-		}
-		
-		
 	
 	}
 	
@@ -129,46 +88,6 @@ public class VoidBoard{
 		board[2][12] = new VoidShip(false, VoidShipType.FIGHTER);
 		board[2][13] = new VoidShip(false, VoidShipType.FIGHTER);
 		board[2][14] = new VoidShip(false, VoidShipType.FIGHTER);
-		
-		log("board reset");
-	
-	}
-	
-	private void logMove(int oi, int si, int of, int sf, int oa, int sa){
-	
-		String iCoords = ("(" + oi + "," + si + ")");
-		String fCoords = ("(" + of + "," + sf + ")");
-		String aCoords = ("(" + oa + "," + sa + ")");
-		
-		log(iCoords + " to " + fCoords + " hit " + aCoords);
-	
-	}
-	
-	private void log(String logEntry){
-	
-		try{
-		
-			logWriter.write(logEntry + "\n");
-		
-		}catch (IOException e){
-		
-			System.out.println("Error: IOException thrown while writing to the logfile.");
-		
-		}
-	
-	}
-	
-	public void closeLog(){
-	
-		try{
-		
-			logWriter.close();
-		
-		}catch (IOException e){
-		
-			System.out.println("Error: IOException thrown while closing the logfile.");
-		
-		}
 	
 	}
 
